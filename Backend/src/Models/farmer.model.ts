@@ -5,6 +5,8 @@ interface IFarmer extends Document {
   name: string;
   email:string;
   password:string;
+  phone:string;
+  soilType:string;
   location: {
     latitude: number;
     longitude: number;
@@ -18,6 +20,8 @@ interface IFarmer extends Document {
 const FarmerSchema = new Schema<IFarmer>({
   name: { type: String, required: true },
   email:{type:String, required:true},
+  soilType:{type:String, required:false},
+  phone:{type:String, required:false},
   location: {
     latitude: { type: Number, required: false },
     longitude: { type: Number, required: false },
