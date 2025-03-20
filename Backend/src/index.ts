@@ -21,7 +21,7 @@ app.listen(port,()=>{
 
 app.post('/signup', signupFarmer);
 app.post('/signin',signinFarmer)
-app.get('/weather',getWeatherData)
+app.get('/weather',authenticateUser,getWeatherData)
 app.get('/profile',authenticateUser,getFarmerProfile)
 app.put('/UpdateProfile',authenticateUser,updateFarmerProfile)
 

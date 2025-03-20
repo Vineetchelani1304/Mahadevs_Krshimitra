@@ -369,39 +369,40 @@ const WeatherAnalysis: React.FC = () => {
   const [cropImpact, setCropImpact] = useState([]);
   const [location, setLocation] = useState(null);
 
+  // useEffect(() => {
+  //   const fetchFarmerLocation = async () => {
+  //     try {
+  //       const token = localStorage.getItem("token");
+  //       if (!token) {
+  //         console.log("Please login");
+  //         return;
+  //       }
+  //       const response = await axios.get('http://localhost:8080/profile', {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`
+  //         }
+  //       });
+  //       console.log("location of farmer ",response)
+  //       console.log("region of farmer",response.data.farmer.location.region)
+  //       setLocation(response.data.farmer.location);
+  //     } catch (error) {
+  //       console.error('Error fetching farmer location:', error);
+  //     }
+  //   };
+
+  //   fetchFarmerLocation();
+  // }, []);
+
   useEffect(() => {
-    const fetchFarmerLocation = async () => {
+    const fetchWeatherData = async () => {
       try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          console.log("Please login");
-          return;
-        }
-        const response = await axios.get('http://localhost:8080/profile', {
+        const token = localStorage.getItem("token")
+        const response = await axios.get('http://localhost:8080/weather', {
           headers: {
             Authorization: `Bearer ${token}`
           }
         });
-        console.log("location of farmer ",response)
-        console.log("region of farmer",response.data.farmer.location.region)
-        setLocation(response.data.farmer.location);
-      } catch (error) {
-        console.error('Error fetching farmer location:', error);
-      }
-    };
-
-    fetchFarmerLocation();
-  }, []);
-
-  useEffect(() => {
-    const fetchWeatherData = async () => {
-      if (!location) return;
-
-      try {
-        const response = await axios.get('http://localhost:8080/weather', {
-          params: { location: location.region } // Use the region from the farmer's location
-        });
-        console.log("Response for location:", response.data);
+        console.log("Response for weather:", response.data);
         setForecast(response.data.weatherData.forecast || []);
         setWeatherAlerts(response.data.weatherData.alerts || []);
         setCropImpact(response.data.weatherData.cropImpact || []);
