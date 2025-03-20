@@ -83,13 +83,13 @@ import Header from "@/components/Header";
 const Signup = () => {
   const navigate = useNavigate();
   
-  useEffect(() => {
-    // Check if user is already logged in
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    if (isLoggedIn) {
-      navigate('/dashboard');
-    }
-  }, [navigate]);
+  // useEffect(() => {
+  //   // Check if user is already logged in
+  //   const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  //   if (isLoggedIn) {
+  //     navigate('/dashboard');
+  //   }
+  // }, [navigate]);
 
   return (
     <div className="min-h-screen flex flex-col">
