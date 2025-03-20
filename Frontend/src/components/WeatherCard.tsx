@@ -8,6 +8,7 @@ interface WeatherCardProps {
   condition: 'sunny' | 'cloudy' | 'rainy' | 'snowy' | 'stormy' | 'windy';
   humidity: number;
   windSpeed: number;
+  location:string
   precipitation: number;
 }
 
@@ -17,7 +18,8 @@ const WeatherCard: React.FC<WeatherCardProps> = ({
   condition,
   humidity,
   windSpeed,
-  precipitation
+  precipitation,
+  location
 }) => {
   const getWeatherIcon = () => {
     switch (condition) {
@@ -58,11 +60,15 @@ const WeatherCard: React.FC<WeatherCardProps> = ({
   };
 
   return (
-    <div className={`rounded-xl p-5 card-hover bg-gradient-to-br ${getConditionColor()} backdrop-blur-sm border border-white/20 shadow-lg`}>
+    <div className={`  text-black rounded-xl p-5 card-hover bg-gradient-to-br ${getConditionColor()} backdrop-blur-sm border border-white/20 shadow-lg`}>
       <div className="flex justify-between items-start mb-4">
         <div>
           <p className="text-sm font-medium text-muted-foreground">{date}</p>
           <h3 className="text-2xl font-bold">{temp}°C</h3>
+        </div>
+        <div>
+          <p className="text-sm font-medium text-muted-foreground">{date}</p>
+          <h3 className="text-2xl font-bold">{location}°C</h3>
         </div>
         <div className="flex items-center justify-center p-2 bg-white/30 dark:bg-black/20 rounded-full">
           {getWeatherIcon()}

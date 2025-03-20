@@ -1082,10 +1082,11 @@ const Dashboard = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <WeatherCard
-                      temperature={weatherData.current.temp_c}
+                      temp={weatherData.current.temp_c}
                       condition={weatherData.current.condition.text}
                       humidity={weatherData.current.humidity}
-                      wind={weatherData.current.wind_kph}
+                      windSpeed={weatherData.current.wind_kph}
+                      precipitation={weatherData.current.precip_in}
                       location={farmerInfo.location.region}
                       detailed={true}
                     />
@@ -1094,27 +1095,28 @@ const Dashboard = () => {
                   <div className="border rounded-md p-4">
                     <h3 className="font-medium mb-2">{t('weeklyForecast')}</h3>
                     <div className="space-y-4">
-                      {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].map((day, index) => (
+                      {weatherData.forecast.forecastday.map((forecast, index) => (
                         <motion.div
-                          key={day}
+                          key={index}
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: index * 0.1 }}
                           className="flex justify-between items-center border-b pb-2 last:border-0"
                         >
-                          <span>{t(day.toLowerCase())}</span>
+                          <span>{t(new Date(forecast.date).toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase())}</span>
                           <div className="flex items-center">
-                            {renderWeatherIcon(["Clear", "Cloudy", "Rainy", "Clear", "Cloudy"][index])}
+                            {renderWeatherIcon(forecast.day.condition.text)}
                             <span className="ml-2 font-medium">
-                              {[28, 27, 24, 26, 27][index]}°C
+                              {forecast.day.avgtemp_c}°C
                             </span>
                           </div>
                           <span className="text-sm text-muted-foreground">
-                            {[8, 12, 60, 5, 10][index]}% {t('rain')}
+                            {forecast.day.daily_chance_of_rain}% {t('rain')}
                           </span>
                         </motion.div>
                       ))}
                     </div>
+
                   </div>
                 </div>
 
@@ -1124,19 +1126,31 @@ const Dashboard = () => {
                     {t('weatherAlerts')}
                   </h3>
 
-                  <div className="bg-amber-50 border border-amber-200 rounded-md p-3">
-                    <h4 className="font-medium text-amber-800">{t('rainExpected')}</h4>
-                    <p className="text-sm text-amber-700 mt-1">
-                      {t('rainAlert')}
-                    </p>
-                    <div className="flex justify-between items-center mt-2">
-                      <span className="text-xs text-amber-600">{t('inNext')}: 48 {t('hours')}</span>
-                      <Button variant="outline" size="sm" className="h-7 text-xs">
-                        {t('prepare')}
-                      </Button>
+                  {weatherData.forecast.forecastday.some(forecast => forecast.day.daily_chance_of_rain > 50) ? (
+                    <div className="bg-amber-50 border border-amber-200 rounded-md p-3">
+                      <h4 className="font-medium text-amber-800">{t('rainExpected')}</h4>
+                      <p className="text-sm text-amber-700 mt-1">
+                        {t('rainAlert')}
+                      </p>
+                      <div className="flex justify-between items-center mt-2">
+                        <span className="text-xs text-amber-600">
+                          {t('inNext')}: {new Date(weatherData.forecast.forecastday.find(forecast => forecast.day.daily_chance_of_rain > 50).date).toLocaleDateString()}
+                        </span>
+                        <Button variant="outline" size="sm" className="h-7 text-xs">
+                          {t('prepare')}
+                        </Button>
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="bg-green-50 border border-green-200 rounded-md p-3">
+                      <h4 className="font-medium text-green-800 font-bold">{t('No Alerts')}</h4>
+                      <p className="text-sm text-green-700 mt-1 font-semibold">
+                        {t('All is Well')}
+                      </p>
+                    </div>
+                  )}
                 </div>
+
               </CardContent>
             </Card>
           </motion.div>
