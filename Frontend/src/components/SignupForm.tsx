@@ -23,13 +23,9 @@ const SignupForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    fullName: '',
+    name: '',
     email: '',
-    phone: '',
     password: '',
-    location: '',
-    soilType: '',
-    acceptTerms: false,
   });
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,14 +51,7 @@ const SignupForm: React.FC = () => {
       return;
     }
     
-    if (!formData.acceptTerms) {
-      toast({
-        title: "Terms & Conditions",
-        description: "Please accept the terms and conditions to proceed.",
-        variant: "destructive",
-      });
-      return;
-    }
+
     
     setIsLoading(true);
     
@@ -71,7 +60,7 @@ const SignupForm: React.FC = () => {
       // For demo, we'll just register the user
       // In a real app, this would send the data to an API
       setIsLoading(false);
-      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('token', 'true');
       
       toast({
         title: "Account created",
