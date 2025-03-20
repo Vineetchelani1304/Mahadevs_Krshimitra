@@ -6,6 +6,7 @@ import connectDB from "./utils/db";
 import cors from "cors"
 import { getFarmerProfile, updateFarmerProfile } from "./Controllers/profile";
 import { authenticateUser } from "./middlewares/auth";
+import { getAllSensorData, saveSensorData } from "./Controllers/sensor";
 dotenv.config();
 
 const app = express();
@@ -24,5 +25,6 @@ app.post('/signin',signinFarmer)
 app.get('/weather',authenticateUser,getWeatherData)
 app.get('/profile',authenticateUser,getFarmerProfile)
 app.put('/UpdateProfile',authenticateUser,updateFarmerProfile);
-app.post("/inputSensoData",)
+app.post("/inputIotData",saveSensorData)
+app.post("/getIotData",getAllSensorData)
 
