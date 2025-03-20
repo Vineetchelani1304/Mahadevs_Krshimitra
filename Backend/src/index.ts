@@ -5,6 +5,7 @@ import { getWeatherData } from "./Controllers/weather";
 import connectDB from "./utils/db";
 import cors from "cors"
 import { getFarmerProfile, updateFarmerProfile } from "./Controllers/profile";
+import { authenticateUser } from "./middlewares/auth";
 dotenv.config();
 
 const app = express();
@@ -21,6 +22,6 @@ app.listen(port,()=>{
 app.post('/signup', signupFarmer);
 app.post('/signin',signinFarmer)
 app.get('/weather',getWeatherData)
-app.get('/profile',getFarmerProfile)
-app.put('/UpdateProfile',updateFarmerProfile)
+app.get('/profile',authenticateUser,getFarmerProfile)
+app.put('/UpdateProfile',authenticateUser,updateFarmerProfile)
 

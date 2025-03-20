@@ -38,6 +38,8 @@ const mongoose_1 = __importStar(require("mongoose"));
 const FarmerSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true },
+    soilType: { type: String, required: false },
+    phone: { type: String, required: false },
     location: {
         latitude: { type: Number, required: false },
         longitude: { type: Number, required: false },

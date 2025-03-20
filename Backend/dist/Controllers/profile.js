@@ -22,10 +22,51 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateFarmerProfile = exports.getFarmerProfile = void 0;
 const farmer_model_1 = require("../Models/farmer.model");
+// export const getFarmerProfile = async (req: Request, res: Response) => {
+//     const { farmerId } = req.body; // Assuming farmerId is passed as a route parameter
+//     try {
+//         const farmer = await Farmer.findById(farmerId).populate('recommendations');
+//         console.log("farmer details",farmer)
+//         if (!farmer) {
+//             res.status(404).json({ message: 'Farmer not found.' });
+//             return;
+//         }
+//         res.status(200).json({ 
+//             message: 'Farmer profile fetched successfully',
+//             farmer
+//         });
+//         return;
+//     } catch (error) {
+//         res.status(500).json({ message: 'Server error', error: (error as Error).message });
+//         return;
+//     }
+// };
+// export const updateFarmerProfile = async (req: Request, res: Response) => {
+//     const { farmerId } = req.body; 
+//     const {...updateData} = req.body;
+//     try {
+//         const updatedFarmer = await Farmer.findByIdAndUpdate(farmerId, updateData, { new: true }).populate('fields').populate('recommendations');
+//         if (!updatedFarmer) {
+//             res.status(404).json({ message: 'Farmer not found.' });
+//             return;
+//         }
+//         console.log("updated details",updateData)
+//         res.status(200).json({ 
+//             message: 'Farmer profile updated successfully',
+//             updatedFarmer
+//         });
+//         return;
+//     } catch (error) {
+//         res.status(500).json({ message: 'Server error', error: (error as Error).message });
+//         return;
+//     }
+// };
 const getFarmerProfile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { farmerId } = req.body; // Assuming farmerId is passed as a route parameter
+    const { farmerId } = req.body;
     try {
-        const farmer = yield farmer_model_1.Farmer.findById(farmerId).populate('fields').populate('recommendations');
+        console.log("farmerId", farmerId);
+        const farmer = yield farmer_model_1.Farmer.findById(farmerId);
+        console.log("farmer details", farmer);
         if (!farmer) {
             res.status(404).json({ message: 'Farmer not found.' });
             return;
@@ -43,14 +84,16 @@ const getFarmerProfile = (req, res) => __awaiter(void 0, void 0, void 0, functio
 });
 exports.getFarmerProfile = getFarmerProfile;
 const updateFarmerProfile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { farmerId } = req.body;
-    const updateData = __rest(req.body, []);
+    const _a = req.body, { farmerId } = _a, updateData = __rest(_a, ["farmerId"]); // ✅ Correct way to extract data
+    console.log("farmerId in update", farmerId);
+    console.log("updated data", updateData);
     try {
-        const updatedFarmer = yield farmer_model_1.Farmer.findByIdAndUpdate(farmerId, updateData, { new: true }).populate('fields').populate('recommendations');
+        const updatedFarmer = yield farmer_model_1.Farmer.findByIdAndUpdate(farmerId, updateData, { new: true });
         if (!updatedFarmer) {
             res.status(404).json({ message: 'Farmer not found.' });
             return;
         }
+        console.log("updated details", updatedFarmer);
         res.status(200).json({
             message: 'Farmer profile updated successfully',
             updatedFarmer
