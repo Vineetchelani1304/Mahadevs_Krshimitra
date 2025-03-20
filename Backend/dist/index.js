@@ -22,6 +22,6 @@ app.listen(port, () => {
 });
 app.post('/signup', auth_1.signupFarmer);
 app.post('/signin', auth_1.signinFarmer);
-app.get('/weather', weather_1.getWeatherData);
+app.get('/weather', auth_2.authenticateUser, weather_1.getWeatherData);
 app.get('/profile', auth_2.authenticateUser, profile_1.getFarmerProfile);
 app.put('/UpdateProfile', auth_2.authenticateUser, profile_1.updateFarmerProfile);

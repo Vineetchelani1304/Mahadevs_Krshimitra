@@ -36,7 +36,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Weather = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const WeatherSchema = new mongoose_1.Schema({
-    location_id: { type: mongoose_1.default.Schema.Types.ObjectId, ref: 'Farmer' },
+    // location_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Farmer' },
+    location: { type: String },
     humidity: { type: Number },
     temperature: { type: Number },
     rainfall: { type: Number },
