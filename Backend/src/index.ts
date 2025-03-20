@@ -19,7 +19,7 @@ app.listen(port,()=>{
     console.log("listening on port ",port);
 })
 
-app.post('/signup', signupFarmer);
+app.post('/signup', signupFarmer)
 app.post('/signin',signinFarmer)
 app.get('/weather',authenticateUser,getWeatherData)
 app.get('/profile',authenticateUser,getFarmerProfile)
