@@ -1,6 +1,6 @@
-
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,37 +14,52 @@ const LoginForm: React.FC = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    rememberMe: false
   });
-  
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: value
     });
   };
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      // For demonstration purposes, we'll just log the user in
-      // In a real app, you would verify credentials with an API
-      setIsLoading(false);
-      localStorage.setItem('isLoggedIn', 'true');
-      
+
+    try {
+      const response = await axios.post('http://localhost:8080/signin', formData);
+
+      if (response.status === 200) {
+        const { token, farmer } = response.data;
+        localStorage.setItem('token', token);
+        localStorage.setItem('farmer', JSON.stringify(farmer));
+
+        toast({
+          title: "Login successful",
+          description: `Welcome back, ${farmer.name}!`,
+        });
+
+        navigate('/dashboard');
+      } else {
+        toast({
+          title: "Error",
+          description: response.data.message || "Failed to log in.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
       toast({
-        title: "Login successful",
-        description: "Welcome back to AgriVision!",
+        title: "Error",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive",
       });
-      
-      navigate('/dashboard');
-    }, 1500);
+    } finally {
+      setIsLoading(false);
+    }
   };
-  
+
   return (
     <div className="w-full max-w-md mx-auto">
       <div className="text-center mb-8">
@@ -53,7 +68,7 @@ const LoginForm: React.FC = () => {
           Enter your credentials to access your account
         </p>
       </div>
-      
+
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-4">
           <div className="relative">
@@ -70,7 +85,7 @@ const LoginForm: React.FC = () => {
               className="pl-10"
             />
           </div>
-          
+
           <div className="relative">
             <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
               <Lock size={18} />
@@ -95,30 +110,17 @@ const LoginForm: React.FC = () => {
             </Button>
           </div>
         </div>
-        
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              id="rememberMe"
-              name="rememberMe"
-              checked={formData.rememberMe}
-              onChange={handleChange}
-              className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
-            />
-            <label htmlFor="rememberMe" className="text-sm text-muted-foreground">
-              Remember me
-            </label>
-          </div>
+
+        <div className="flex items-center justify-end">
           <Link to="/forgot-password" className="text-sm font-medium text-primary hover:text-primary/80">
             Forgot password?
           </Link>
         </div>
-        
+
         <Button type="submit" className="w-full" disabled={isLoading}>
           {isLoading ? "Logging in..." : "Log in"}
         </Button>
-        
+
         <div className="relative my-6">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-border"></div>
@@ -129,7 +131,7 @@ const LoginForm: React.FC = () => {
             </span>
           </div>
         </div>
-        
+
         <div className="flex gap-4">
           <Button type="button" variant="outline" className="w-full" onClick={() => {
             toast({
@@ -172,7 +174,7 @@ const LoginForm: React.FC = () => {
             Facebook
           </Button>
         </div>
-        
+
         <p className="text-center text-sm text-muted-foreground mt-6">
           Don't have an account?{" "}
           <Link to="/signup" className="font-medium text-primary hover:text-primary/80">
