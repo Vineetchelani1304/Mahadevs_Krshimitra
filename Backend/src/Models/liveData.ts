@@ -1,20 +1,18 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-// Define interface for the IoT Sensor Dat
-interface IIoTSensorData extends Document {
-    temperature: number;      // Temperature reading in Celsius
-    humidity: number;         // Humidity reading in percentage
-    soilMoisture: number;     // Soil moisture level in percentage
-    recordedAt: Date;         // Timestamp for the data entry
+export interface IIoTSensorData extends Document {
+    temperature?: number;
+    humidity?: number;
+    soilMoisture?: number;
+    [key: string]: any; // Allow dynamic fields
+    timestamp: Date;
 }
 
-// Define the Schema for IoT Sensor Data
 const IoTSensorDataSchema = new Schema<IIoTSensorData>({
-    temperature: { type: Number, required: false },
-    humidity: { type: Number, required: false },
-    soilMoisture: { type: Number, required: false },
-    recordedAt: { type: Date, default: Date.now }, // Auto-generates timestamp
-});
+    temperature: { type: Number },
+    humidity: { type: Number },
+    soilMoisture: { type: Number },
+    timestamp: { type: Date, default: Date.now, index: true }, // Indexed for fast queries
+}, { strict: false }); // Allows storing dynamic fields
 
-// Create the MongoDB model for IoT Sensor Data
 export const IoTSensorData = mongoose.model<IIoTSensorData>('IoTSensorData', IoTSensorDataSchema);
