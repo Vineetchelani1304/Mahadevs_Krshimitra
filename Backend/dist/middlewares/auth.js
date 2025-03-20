@@ -14,7 +14,7 @@ const authenticateUser = (req, res, next) => {
     }
     try {
         const decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
-        req.body.userId = decoded.userId;
+        req.body.farmerId = decoded.userId;
         next();
     }
     catch (error) {

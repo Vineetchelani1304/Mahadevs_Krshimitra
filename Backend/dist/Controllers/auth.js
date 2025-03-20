@@ -19,6 +19,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const signupFarmer = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, email, password } = req.body;
     // Basic validation
+    console.log("fields", req.body);
     if (!name || !email || !password) {
         res.status(400).json({ message: 'Please provide all required fields.' });
         return;
@@ -32,12 +33,18 @@ const signupFarmer = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         }
         const hashedPassword = yield bcrypt_1.default.hash(password, 10);
         // Create new farmer
-        const newFarmer = new farmer_model_1.Farmer({
+        const newFarmer = yield farmer_model_1.Farmer.create({
             name,
             email,
             password: hashedPassword
         });
-        yield newFarmer.save();
+        // const newFarmer = new Farmer({
+        //     name,
+        //     email,
+        //     password:hashedPassword
+        // });
+        // await newFarmer.save();
+        console.log("new far", newFarmer);
         res.status(201).json({ message: 'Farmer registered successfully', farmer: newFarmer });
         return;
     }

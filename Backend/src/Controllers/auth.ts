@@ -4,9 +4,10 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 
 export const signupFarmer = async (req: Request, res: Response) => {
-    const { name, email, password} = req.body;
+    const { name, email, password } = req.body;
 
     // Basic validation
+    console.log("fields", req.body);
     if (!name || !email || !password) {
         res.status(400).json({ message: 'Please provide all required fields.' });
         return
@@ -14,22 +15,28 @@ export const signupFarmer = async (req: Request, res: Response) => {
 
     try {
         // Check if farmer already exists (optional based on requirements)
-        const existingFarmer = await Farmer.findOne({ name, email});
+        const existingFarmer = await Farmer.findOne({ name, email });
         if (existingFarmer) {
             res.status(400).json({ message: 'Farmer already registered in this region.' });
-            return 
+            return
         }
 
-        const hashedPassword = await bcrypt.hash(password,10);
+        const hashedPassword = await bcrypt.hash(password, 10);
         // Create new farmer
-        const newFarmer = new Farmer({
-            name,
-            email,
-            password:hashedPassword
-        });
+        const newFarmer = await Farmer.create({
+                name,
+                email,
+                password: hashedPassword
+            })
+        // const newFarmer = new Farmer({
+        //     name,
+        //     email,
+        //     password:hashedPassword
+        // });
 
-        await newFarmer.save();
+        // await newFarmer.save();
 
+        console.log("new far",newFarmer);
         res.status(201).json({ message: 'Farmer registered successfully', farmer: newFarmer });
         return
     } catch (error) {
@@ -44,20 +51,20 @@ export const signinFarmer = async (req: Request, res: Response) => {
 
     if (!email || !password) {
         res.status(400).json({ message: 'Please provide email and password.' });
-        return 
+        return
     }
 
     try {
         const farmer = await Farmer.findOne({ email });
         if (!farmer) {
             res.status(404).json({ message: 'Farmer not found.' });
-            return 
+            return
         }
 
         const isMatch = await bcrypt.compare(password, farmer.password);
         if (!isMatch) {
             res.status(401).json({ message: 'Incorrect password.' });
-            return 
+            return
         }
 
         const token = jwt.sign(
@@ -66,9 +73,9 @@ export const signinFarmer = async (req: Request, res: Response) => {
             { expiresIn: '1d' }
         );
 
-        res.status(200).json({ 
-            message: 'Sign-in successful', 
-            token, 
+        res.status(200).json({
+            message: 'Sign-in successful',
+            token,
             farmer: { id: farmer._id, name: farmer.name, email: farmer.email }
         });
         return

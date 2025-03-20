@@ -8,11 +8,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateFarmerProfile = exports.getFarmerProfile = void 0;
 const farmer_model_1 = require("../Models/farmer.model");
 const getFarmerProfile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { farmerId } = req.params; // Assuming farmerId is passed as a route parameter
+    const { farmerId } = req.body; // Assuming farmerId is passed as a route parameter
     try {
         const farmer = yield farmer_model_1.Farmer.findById(farmerId).populate('fields').populate('recommendations');
         if (!farmer) {
@@ -32,8 +43,8 @@ const getFarmerProfile = (req, res) => __awaiter(void 0, void 0, void 0, functio
 });
 exports.getFarmerProfile = getFarmerProfile;
 const updateFarmerProfile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { farmerId } = req.params;
-    const updateData = req.body;
+    const { farmerId } = req.body;
+    const updateData = __rest(req.body, []);
     try {
         const updatedFarmer = yield farmer_model_1.Farmer.findByIdAndUpdate(farmerId, updateData, { new: true }).populate('fields').populate('recommendations');
         if (!updatedFarmer) {

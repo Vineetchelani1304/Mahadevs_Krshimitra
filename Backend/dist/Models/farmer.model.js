@@ -39,9 +39,9 @@ const FarmerSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true },
     location: {
-        latitude: { type: Number, required: true },
-        longitude: { type: Number, required: true },
-        region: { type: String, required: true },
+        latitude: { type: Number, required: false },
+        longitude: { type: Number, required: false },
+        region: { type: String, required: false },
     },
     crops_cultivated: [{ type: String }],
     expense: { type: Number },
