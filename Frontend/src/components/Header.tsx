@@ -66,11 +66,11 @@ const Header: React.FC<HeaderProps> = ({ isLoggedIn = false, onLogout, showHomeN
   ];
   
   const dashboardNavLinks = [
-    { name: t('dashboard'), path: "/dashboard" },
-    { name: t('cropRecommendation'), path: "/crop-recommendation" },
-    { name: t('weatherAnalysis'), path: "/weather-analysis" },
-    { name: t('marketInsights'), path: "/market-insights" },
-    { name: t('iotData'), path: "/iot" },
+    { name: t('DashBoard'), path: "/dashboard" },
+    { name: t('Crop-Recommendation'), path: "/crop-recommendation" },
+    { name: t('Weather-Analysis'), path: "/weather-analysis" },
+    // { name: t('marketInsights'), path: "/market-insights" },
+    { name: t('IOT-Data'), path: "/iot" },
   ];
 
   const navLinks = showHomeNav ? homeNavLinks : (isLoggedIn ? dashboardNavLinks : homeNavLinks);

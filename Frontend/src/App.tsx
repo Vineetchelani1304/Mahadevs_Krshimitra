@@ -20,6 +20,7 @@ import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import Chatbot from "./components/Chatbot";
 import IOTMonitoring from "./components/IOTMonitoring";
+import IOTMonitoringPage from "./pages/IOTMonitoring";
 
 const queryClient = new QueryClient();
 
@@ -43,7 +44,7 @@ const App = () => (
               <Route path="/about" element={<About />} />
               <Route path="/features" element={<Features />} />
               <Route path="/contact" element={<Contact />} />
-              <Route path="/iot" element={<IOTMonitoring />} />
+              <Route path="/iot" element={<IOTMonitoringPage />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

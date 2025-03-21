@@ -75,31 +75,31 @@ const NavigationLayout: React.FC<NavigationLayoutProps> = ({ children }) => {
   // Dashboard navigation items
   const dashboardNavItems = [
     { 
-      label: t('dashboard'), 
+      label: t('Dashboard'), 
       icon: Home, 
       path: '/dashboard',
       active: path === '/dashboard',
     },
     { 
-      label: t('cropRecommendation'), 
+      label: t('Crop-Recommendation'), 
       icon: Sprout, 
       path: '/crop-recommendation',
       active: path === '/crop-recommendation',
     },
     { 
-      label: t('weatherAnalysis'), 
+      label: t('Weather-Analysis'), 
       icon: Cloud, 
       path: '/weather-analysis',
       active: path === '/weather-analysis',
     },
+    // { 
+    //   label: t('marketInsights'), 
+    //   icon: BarChart, 
+    //   path: '/market-insights',
+    //   active: path === '/market-insights',
+    // },
     { 
-      label: t('marketInsights'), 
-      icon: BarChart, 
-      path: '/market-insights',
-      active: path === '/market-insights',
-    },
-    { 
-      label: t('iotData'), 
+      label: t('IOT-Data'), 
       icon: Thermometer, 
       path: '/iot',
       active: path.includes('tab=iot'),
@@ -107,26 +107,26 @@ const NavigationLayout: React.FC<NavigationLayoutProps> = ({ children }) => {
   ];
 
   // IOT-specific navigation items
-  const iotNavItems = [
-    { 
-      label: t('temperature'), 
-      icon: Thermometer, 
-      path: '/iot&sensor=temperature',
-      active: path.includes('temperature'),
-    },
-    { 
-      label: t('humidity'), 
-      icon: Droplet, 
-      path: '/iot&sensor=humidity',
-      active: path.includes('humidity'),
-    },
+  // const iotNavItems = [
+  //   { 
+  //     label: t('temperature'), 
+  //     icon: Thermometer, 
+  //     path: '/iot&sensor=temperature',
+  //     active: path.includes('temperature'),
+  //   },
+  //   { 
+  //     label: t('humidity'), 
+  //     icon: Droplet, 
+  //     path: '/iot&sensor=humidity',
+  //     active: path.includes('humidity'),
+  //   },
     // { 
     //   label: t('soilMoisture'), 
     //   icon: Moisture, 
     //   path: '/dashboard?tab=iot&sensor=soilMoisture',
     //   active: path.includes('soilMoisture'),
     // },
-  ];
+  // ];
   
   // Only render sidebar for dashboard/protected pages
   const renderSidebar = isProtectedPage && isAuthenticated;
@@ -182,15 +182,15 @@ const NavigationLayout: React.FC<NavigationLayoutProps> = ({ children }) => {
               ))}
             </div>
             
-            <div className="mt-4 flex flex-col gap-2 px-2 py-2">
+            {/* <div className="mt-4 flex flex-col gap-2 px-2 py-2">
               <p className={cn(
                 "px-2 text-xs font-medium text-muted-foreground",
                 !sidebarOpen && "sr-only"
               )}>
                 {t('iotData')}
               </p>
-              
-              {iotNavItems.map((item) => (
+               */}
+              {/* {iotNavItems.map((item) => (
                 <Link 
                   key={item.path}
                   to={item.path}
@@ -205,8 +205,8 @@ const NavigationLayout: React.FC<NavigationLayoutProps> = ({ children }) => {
                   <item.icon className={cn("h-4 w-4", sidebarOpen && "mr-2")} />
                   {sidebarOpen && <span>{item.label}</span>}
                 </Link>
-              ))}
-            </div>
+              ))} */}
+            {/* </div> */}
             
             <div className="mt-auto flex flex-col gap-2 px-2 py-4">
               <Link 
